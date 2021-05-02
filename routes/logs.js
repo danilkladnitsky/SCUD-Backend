@@ -1,21 +1,20 @@
+//Подключаем необходимые модули
 let logs = require('../config/logs')
-var bodyParser = require('body-parser'); 
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
-var jsonParser = bodyParser.json()
 let secure = require('../secure')
 
 module.exports = function(app) {
+  //Получаем все логи
   app.get('/logs', async(req, res) => {
     logs.getAllLogs(res)
-    console.log("Get logs");
   });
 
   app.get('/logs/:param/:value', (req, res) => {
+    //Выдаём логи по параметрам
     logs.getLogsByParam(req.params.param, req.params.value, res);
-    console.log("Get logs specified");
   });
 
   app.post('/logs', (req, res) => {
+    //Вносим новый лог
     logs.insertLog(req.query.guest_id, req.query.guest_name, req.query.mode, req.query.zone, req.query.status,  res)
   });
 
